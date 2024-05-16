@@ -19,14 +19,6 @@ class DevCommands(commands.Cog):
         await msg.edit(content=f'Synced {len(synced)} app commands.')
 
 
-    @command(name='check-active')
-    @commands.is_owner()
-    async def check_active_guild(self, ctx: commands.Context):
-        """ Only bot owner can use. Check if current guild is bot's active guild. """
-        msg = 'ACTIVE GUILD' if ctx.guild.id == self.bot.config.guild_id else 'NOT ACTIVE GUILD'
-        await ctx.send(msg)
-
-
     @command(name='get-config')
     @commands.is_owner()
     async def get_config(self, ctx: commands.Context):
