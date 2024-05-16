@@ -19,11 +19,12 @@ class Listeners(Cog):
                 or not message.attachments:
             return
 
-        subm_ch = (
-            self.bot
-            .get_guild(self.bot.config.guild_id)
-            .get_channel(self.bot.config.submission_file_channel)
-        )
+        subm_guild = self.bot.get_guild(self.bot.config.guild_id)
+        if subm_guild is None:
+            await message.channel.send('Error: Bot does not have an active guild.')
+            return
+
+        subm_ch = subm_guild.get_channel(self.bot.config.submission_file_channel)
         if subm_ch is None:
             await message.channel.send('Error: Bot is not configured to accept submissions.')
             return
@@ -43,7 +44,7 @@ class Listeners(Cog):
         username = message.author.name
         filename = f'{username}_task{self.bot.config.task.number}_{self.bot.config.task.year}'
         subm_file = discord.File(io.BytesIO(content), filename=filename)
-        bot_msg = await subm_ch.send(f'{username}', file=subm_file)
+        bot_msg = await subm_ch.send(file=subm_file)
         self.bot.config.task.submissions[username] = bot_msg.id
         self.bot.update_config()
         await message.channel.send('Submission received.', file=subm_file)
