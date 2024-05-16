@@ -10,7 +10,7 @@ async def respond(interaction, msg):
     await interaction.response.send_message(msg, ephemeral=True)
 
 
-class AppCommands(commands.Cog):
+class SlashCommands(commands.Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 

@@ -4,7 +4,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from core.bot import Bot
-from core.appcommands import AppCommands
+from core.slashcommands import SlashCommands
 from core.commands import Commands
 from core.listeners import Listeners
 
@@ -25,7 +25,7 @@ def main():
     async def on_ready():
         bot.load_config()
         await bot.add_cog(Commands(bot))
-        await bot.add_cog(AppCommands(bot))
+        await bot.add_cog(SlashCommands(bot))
         await bot.add_cog(Listeners(bot))
         print(f'Connected: {datetime.now().strftime("%m/%d/%Y %H:%M:%S")}')
 
