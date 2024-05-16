@@ -4,14 +4,16 @@ from discord.ext.commands import Cog
 
 from core.bot import Bot
 
+MAX_FILE_SIZE = 50_000  # 50 KB
+
 # Event reference: https://discordpy.readthedocs.io/en/stable/api.html#discord-api-events
 
 class Listeners(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @Cog.listener()
-    async def on_message(self, message: discord.Message):
+    @Cog.listener(name='on_message')
+    async def handle_submission(self, message: discord.Message):
         if not isinstance(message.channel, discord.DMChannel) \
                 or message.author == self.bot.user \
                 or not message.attachments:
@@ -29,8 +31,8 @@ class Listeners(Cog):
         # TODO: if task is not currently running...
 
         file = message.attachments[0]
-        if file.size > 50_000:
-            await message.channel.send('Submission failed: File is too large.')
+        if file.size > MAX_FILE_SIZE:
+            await message.channel.send(f'Submission failed: File must be {MAX_FILE_SIZE / 1000} KB or less.')
             return
 
         content = await file.read()
