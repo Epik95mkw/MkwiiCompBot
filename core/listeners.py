@@ -21,8 +21,8 @@ class Listeners(Cog):
 
         subm_ch = (
             self.bot
-            .get_guild(self.bot.config.guild)
-            .get_channel(self.bot.config.output_channel)
+            .get_guild(self.bot.config.guild_id)
+            .get_channel(self.bot.config.submission_file_channel)
         )
         if subm_ch is None:
             await message.channel.send('Error: Bot is not configured to accept submissions.')

@@ -23,7 +23,7 @@ class Commands(commands.Cog):
     @commands.is_owner()
     async def check_active_guild(self, ctx: commands.Context):
         """ Only bot owner can use. Check if current guild is bot's active guild. """
-        msg = 'ACTIVE GUILD' if ctx.guild.id == self.bot.config.guild else 'NOT ACTIVE GUILD'
+        msg = 'ACTIVE GUILD' if ctx.guild.id == self.bot.config.guild_id else 'NOT ACTIVE GUILD'
         await ctx.send(msg)
 
 

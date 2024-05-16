@@ -14,18 +14,18 @@ class Task(Serializable):
 
 
 @dataclass(kw_only=True)
-class SubmissionList(Serializable):
+class SubmissionsMessage(Serializable):
     """ Dataclass containing IDs of the submission list message """
-    channel: Optional[int] = None
-    message: Optional[int] = None
+    channel_id: Optional[int] = None
+    message_id: Optional[int] = None
 
 
 @dataclass(kw_only=True)
 class Config(Serializable):
     """ Main dataclass containing all persistent data """
-    guild: Optional[int] = None
+    guild_id: Optional[int] = None
     task: Task = Task()
-    output_channel: Optional[int] = None
-    submission_list: SubmissionList = SubmissionList()
+    submission_file_channel: Optional[int] = None
+    submissions_message: SubmissionsMessage = SubmissionsMessage()
     nicknames: dict = field(default_factory=dict)
     teams: dict = field(default_factory=dict)
