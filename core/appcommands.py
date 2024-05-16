@@ -27,7 +27,7 @@ class AppCommands(commands.Cog):
     @default_permissions()
     async def set_submission_channel(self, interaction: discord.Interaction):
         """ Use this in channel where submissions should be sent. """
-        self.bot.config.submission_file_channel = interaction.channel.id
+        self.bot.config.submission_channel_id = interaction.channel.id
         self.bot.update_config()
         await respond(interaction, 'Submission channel set to this channel')
 

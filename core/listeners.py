@@ -24,7 +24,7 @@ class Listeners(Cog):
             await message.channel.send('Error: Bot does not have an active guild.')
             return
 
-        subm_ch = subm_guild.get_channel(self.bot.config.submission_file_channel)
+        subm_ch = subm_guild.get_channel(self.bot.config.submission_channel_id)
         if subm_ch is None:
             await message.channel.send('Error: Bot is not configured to accept submissions.')
             return
