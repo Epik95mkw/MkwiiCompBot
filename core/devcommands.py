@@ -5,7 +5,7 @@ from discord.ext.commands import command
 from core.bot import Bot
 
 
-class Commands(commands.Cog):
+class DevCommands(commands.Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
