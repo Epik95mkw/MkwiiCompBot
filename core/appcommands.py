@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord.app_commands import command as slash_command, default_permissions, guild_only
 
+from core.bot import Bot
+
 
 async def respond(interaction, msg):
     """ Helper function for responding with interactions """
@@ -9,7 +11,7 @@ async def respond(interaction, msg):
 
 
 class AppCommands(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: Bot):
         self.bot = bot
 
     @slash_command(name='test')
@@ -26,7 +28,7 @@ class AppCommands(commands.Cog):
     async def set_submission_channel(self, interaction: discord.Interaction):
         """ Use this in channel where submissions should be sent. """
         self.bot.config.output_channel = interaction.channel.id
-        self.bot.update_file()
+        self.bot.update_config()
         await respond(interaction, 'Submission channel set to this channel')
 
 

@@ -9,6 +9,7 @@ class Commands(commands.Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
+
     @command(name='sync')
     @commands.is_owner()
     async def sync_app_commands(self, ctx: commands.Context):
@@ -16,6 +17,7 @@ class Commands(commands.Cog):
         msg = await ctx.send('Syncing...')
         synced = await self.bot.tree.sync()
         await msg.edit(content=f'Synced {len(synced)} app commands.')
+
 
     @command(name='check-active')
     @commands.is_owner()
