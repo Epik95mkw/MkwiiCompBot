@@ -9,7 +9,6 @@ class DevCommands(commands.Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-
     @command(name='sync')
     @commands.is_owner()
     async def sync_app_commands(self, ctx: commands.Context):
