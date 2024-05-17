@@ -25,7 +25,7 @@ def main():
     async def on_ready():
         bot.load_config()
         await bot.add_cog(DevCommands(bot))
-        await bot.add_cog(SlashCommands(bot))
+        await bot.add_cog(SlashCommands(bot), guilds=bot.guilds)
         await bot.add_cog(Listeners(bot))
         print(f'Connected: {datetime.now().strftime("%m/%d/%Y %H:%M:%S")}')
 

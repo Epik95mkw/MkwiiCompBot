@@ -12,9 +12,9 @@ class DevCommands(commands.Cog):
     @command(name='sync')
     @commands.is_owner()
     async def sync_app_commands(self, ctx: commands.Context):
-        """ Only bot owner can use. Sync application commands. """
+        """ Only bot owner can use. Sync application commands to current guild. """
         msg = await ctx.send('Syncing...')
-        synced = await self.bot.tree.sync()
+        synced = await self.bot.tree.sync(guild=ctx.guild)
         await msg.edit(content=f'Synced {len(synced)} app commands.')
 
 
