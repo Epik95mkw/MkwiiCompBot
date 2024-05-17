@@ -48,16 +48,6 @@ class SlashCommands(commands.Cog):
     @slash_command()
     @guild_only()
     @default_permissions()
-    async def set_active_guild(self, interaction: discord.Interaction):
-        """ Set bot's active guild to the current server. """
-        self.bot.config.guild_id = interaction.guild.id
-        self.bot.update_config()
-        await respond(interaction, 'Active guild set to this server')
-
-
-    @slash_command()
-    @guild_only()
-    @default_permissions()
     async def set_host_channel(self, interaction: discord.Interaction):
         """ Use this in the channel where submissions should be sent. """
         self.bot.config.submission_channel_id = interaction.channel.id
