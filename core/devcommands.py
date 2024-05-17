@@ -16,8 +16,8 @@ class DevCommands(commands.Cog):
         msg = await ctx.send('Activating...')
         self.bot.config.guild_id = ctx.guild.id
         self.bot.update_config()
-        synced = await self.bot.tree.sync(guild=ctx.guild)
-        await msg.edit(content=f'Set active guild to this server, synced {len(synced)} app commands.')
+        await msg.edit(content='Set active guild to this server.')
+        await self.sync_app_commands(ctx)
 
 
     @command(name='sync')
