@@ -17,20 +17,6 @@ class SlashCommands(commands.Cog):
     @slash_command()
     @guild_only()
     @default_permissions()
-    async def setup(self, interaction: discord.Interaction, host_channel_id: int):
-        """ Setup command. This should be run immediately after the bot is added to your server. """
-        if self.bot.config.guild_id == interaction.guild.id:
-            await respond(interaction, 'Server has already been configured.')
-            return
-        self.bot.config.guild_id = interaction.guild.id
-        self.bot.config.submission_channel_id = host_channel_id
-        self.bot.update_config()
-        await respond(interaction, 'Bot configured for this server.')
-
-
-    @slash_command()
-    @guild_only()
-    @default_permissions()
     async def server_settings(
             self,
             interaction: discord.Interaction,
