@@ -1,6 +1,7 @@
 import json
 import dataclasses
 
+@dataclasses.dataclass
 class Serializable:
     """
     A utility class that allows deep/nested conversion between JSON and Python dataclasses.
@@ -18,13 +19,7 @@ class Serializable:
         Raises ``TypeError`` if object is not fully serializable.
         Keyword arguments are passed to ``json.dumps``.
         """
-        def default(o):
-            if isinstance(o, Serializable):
-                return o.__dict__
-            raise TypeError(f'Object of type {self.__class__.__name__} is not fully serializable. '
-                            f'Make sure all contained types are either serializable by default '
-                            f'or subclasses of the Serializable type.')
-        return json.dumps(self, default=default, **kwargs)
+        return json.dumps(dataclasses.asdict(self), **kwargs)
 
 
     @classmethod
@@ -39,7 +34,6 @@ class Serializable:
 
     @classmethod
     def __from_json_rec(cls, d: dict):
-        # noinspection PyDataclass
         props = {field.name: field.type for field in dataclasses.fields(cls)}
 
         if len(dif := props.keys() - d.keys()) > 0:
