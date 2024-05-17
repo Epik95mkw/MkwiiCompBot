@@ -42,7 +42,7 @@ class Listeners(Cog):
             return
 
         username = message.author.name
-        filename = f'{username}_task{self.bot.config.task.number}_{self.bot.config.task.year}'
+        filename = f'{username}_task{self.bot.config.task.number}_{self.bot.config.task.year}.rkg'
         subm_file = discord.File(io.BytesIO(content), filename=filename)
         bot_msg = await subm_ch.send(file=subm_file)
         self.bot.config.task.submissions[username] = bot_msg.id
