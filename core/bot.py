@@ -47,8 +47,8 @@ class Bot(commands.Bot):
             self.dispatch('update_submissions', old, new)
 
 
-    # def submission_message(self):
-    #     return (
-    #         '__**Current Submissions:**__\n' +
-    #         '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(self.config.task.submissions.keys()))
-    #     )
+    def submission_message(self):
+        return (
+            '__**Current Submissions:**__\n' +
+            '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(self.config.task.submissions.keys()))
+        )
