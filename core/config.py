@@ -9,7 +9,7 @@ from utils.serialize import Serializable
 class Task(Serializable):
     """ Dataclass containing data for a specific task """
     year: int = 2024
-    number: int = 1
+    title: str = 'Task 1'
     team_size: int = 1
     deadline_timestamp: int = datetime.now().timestamp()
     submissions: dict = field(default_factory=dict)

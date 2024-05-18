@@ -46,14 +46,14 @@ class SlashCommands(commands.Cog):
             self,
             interaction: discord.Interaction,
             year: int,
-            number: int,
+            title: str,
             team_size: int,
             deadline_timestamp: int
     ):
         """ Create and start a new task. """
         self.bot.config.task = Task(
             year=year,
-            number=number,
+            title=title,
             team_size=team_size,
             deadline_timestamp=deadline_timestamp
         )
