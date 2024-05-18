@@ -31,7 +31,7 @@ class SlashCommands(commands.Cog):
         response_parts = []
 
         if host_channel_id is not None:
-            self.bot.config.submission_channel_id = host_channel_id
+            self.bot.config.host_channel_id = host_channel_id
             response_parts.append(f'Host channel updated to {host_channel_id}')
 
         if submission_list_channel_id is not None:
@@ -50,9 +50,9 @@ class SlashCommands(commands.Cog):
     @default_permissions()
     async def set_host_channel(self, interaction: discord.Interaction):
         """ Use this in the channel where submissions should be sent. """
-        self.bot.config.submission_channel_id = interaction.channel.id
+        self.bot.config.host_channel_id = interaction.channel.id
         self.bot.update_config()
-        await respond(interaction, 'Submission channel set to this channel')
+        await respond(interaction, 'Host channel set to this channel')
 
 
     @slash_command()
@@ -82,7 +82,7 @@ class SlashCommands(commands.Cog):
         self.bot.config.submissions_message.channel_id = interaction.channel.id
         self.bot.config.submissions_message.message_id = new_message.id
         self.bot.update_config()
-        await respond(interaction, 'Submission channel set to this channel')
+        await respond(interaction, 'Submission message channel set to this channel')
 
 
     @slash_command(name='test')

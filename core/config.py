@@ -25,7 +25,7 @@ class Config(Serializable):
     """ Main dataclass containing all persistent data """
     guild_id: Optional[int] = None
     task: Task = Task()
-    submission_channel_id: Optional[int] = None
+    host_channel_id: Optional[int] = None
     submissions_message: SubmissionsMessage = SubmissionsMessage()
     nicknames: dict = field(default_factory=dict)
     teams: dict = field(default_factory=dict)
