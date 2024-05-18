@@ -38,6 +38,21 @@ class SlashCommands(commands.Cog):
         await respond(interaction, 'Submission message channel set to this channel')
 
 
+    @slash_command()
+    @guild_only()
+    @default_permissions()
+    async def start_task(
+            self,
+            interaction: discord.Interaction,
+            year: int,
+            number: int,
+            team_size: int,
+            deadline: int
+    ):
+        """ Create and start a new task. """
+        pass
+
+
     @slash_command(name='test')
     @guild_only()
     @default_permissions()
