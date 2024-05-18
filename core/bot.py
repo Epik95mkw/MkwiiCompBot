@@ -45,10 +45,3 @@ class Bot(commands.Bot):
 
         if (old := old_config.task.submissions) != (new := new_config.task.submissions):
             self.dispatch('update_submissions', old, new)
-
-
-    def submission_message(self):
-        return (
-            '__**Current Submissions:**__\n' +
-            '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(self.config.task.submissions.keys()))
-        )

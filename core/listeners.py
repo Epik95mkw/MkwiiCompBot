@@ -63,19 +63,32 @@ class Listeners(Cog):
                     await old_message.delete()
 
         new_channel = self.bot.active_guild.get_channel(new_channel_id)
-        new_message = await new_channel.send(self.bot.submission_message())
+        new_message = await new_channel.send(
+            submission_message(self.bot.config.task.submissions)
+        )
         self.bot.config.submissions_message.message_id = new_message.id
         self.bot.update_config()
 
 
-    # @Cog.listener(name='on_update_submissions')
-    # async def on_update_submissions(self, old_list, new_list):
-    #     print('on_update_submissions')
-    #     channel_id = self.bot.config.submissions_message.channel_id
-    #     message_id = self.bot.config.submissions_message.message_id
-    #
-    #     channel = self.bot.active_guild.get_channel(channel_id or -1)
-    #     if channel is not None:
-    #         message = await channel.fetch_message(message_id or -1)
-    #         if message is not None:
-    #             await message.edit(content=self.bot.submission_message())
+    @Cog.listener(name='on_update_submissions')
+    async def on_update_submissions(self, _, new_dict):
+        print('on_update_submissions')
+        channel_id = self.bot.config.submissions_message.channel_id
+        message_id = self.bot.config.submissions_message.message_id
+
+        channel = self.bot.active_guild.get_channel(channel_id or -1)
+        if channel is not None:
+            message = await channel.fetch_message(message_id or -1)
+            if message is not None:
+                await message.edit(content=submission_message(new_dict))
+            else:
+                await channel.send(content=submission_message(new_dict))
+
+
+# HELPERS #
+
+def submission_message(submissions: dict):
+    return (
+        '__**Current Submissions:**__\n' +
+        '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(submissions.keys()))
+    )
