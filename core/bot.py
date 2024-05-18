@@ -8,6 +8,7 @@ class Bot(commands.Bot):
         super().__init__(*args, **kwargs)
         self.configpath = configpath
         self.config = Config()
+        self._prev_config = None
 
     def load_config(self):
         """ Loads config from JSON file """
@@ -21,3 +22,18 @@ class Bot(commands.Bot):
         pretty = self.config.to_json(indent=2)
         with open(self.configpath, 'w') as f:
             f.write(pretty)
+        if self._prev_config is not None:
+            self._on_update(self._prev_config, self.config)
+        self._prev_config = Config.from_json(self.config.to_json())
+
+
+    def _on_update(self, old_config: Config, new_config: Config):
+        if (old := old_config.host_channel_id) != (new := new_config.host_channel_id):
+            self.dispatch('update_host_channel', old, new)
+
+        if (old := old_config.submissions_message.channel_id) != (new := new_config.submissions_message.channel_id):
+            self.dispatch('update_submission_message_channel', old, new)
+
+        if (old := old_config.task.submissions) != (new := new_config.task.submissions):
+            self.dispatch('update_submissions', old, new)
+
