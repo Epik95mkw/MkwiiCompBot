@@ -68,6 +68,19 @@ class SlashCommands(commands.Cog):
         await respond(interaction, 'Created task and opened submissions.')
 
 
+    @slash_command()
+    @guild_only()
+    @default_permissions()
+    async def stop_task(self, interaction: discord.Interaction):
+        """ Stop accepting submissions for the current task. """
+        if not self.bot.config.task.is_accepting:
+            await respond(interaction, 'Submissions are already closed.')
+            return
+        self.bot.config.task.is_accepting = False
+        self.bot.update_config()
+        await respond(interaction, 'Closed submissions for this task.')
+
+
     @slash_command(name='test')
     @guild_only()
     @default_permissions()
