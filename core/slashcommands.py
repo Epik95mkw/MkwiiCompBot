@@ -60,27 +60,11 @@ class SlashCommands(commands.Cog):
     @default_permissions()
     async def set_submissions_message_channel(self, interaction: discord.Interaction):
         """ Use this in the channel where the current submissions message should be sent. """
-        channel_id = self.bot.config.submissions_message.channel_id
-        message_id = self.bot.config.submissions_message.message_id
-
-        if channel_id == interaction.channel.id:
+        if self.bot.config.submissions_message.channel_id == interaction.channel.id:
             await respond(interaction, 'Submission message channel is already set to this channel')
             return
 
-        if channel_id is not None and message_id is not None:
-            old_channel = interaction.guild.get_channel(channel_id)
-            if old_channel is not None:
-                old_message = await old_channel.fetch_message(message_id)
-                if old_message is not None:
-                    await old_message.delete()
-
-        new_message = await interaction.channel.send(
-            '__**Current Submissions:**__\n' +
-            '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(self.bot.config.task.submissions.keys()))
-        )
-
         self.bot.config.submissions_message.channel_id = interaction.channel.id
-        self.bot.config.submissions_message.message_id = new_message.id
         self.bot.update_config()
         await respond(interaction, 'Submission message channel set to this channel')
 

@@ -48,3 +48,34 @@ class Listeners(Cog):
         self.bot.config.task.submissions[username] = bot_msg.id
         self.bot.update_config()
         await message.channel.send('Submission received.', file=subm_file)
+
+
+    @Cog.listener(name='on_update_submission_message_channel')
+    async def on_update_submission_message_channel(self, old_channel_id, new_channel_id):
+        print('on_update_submission_message_channel')
+        old_message_id = self.bot.config.submissions_message.message_id
+
+        if old_channel_id is not None and old_message_id is not None:
+            old_channel = self.bot.active_guild.get_channel(old_channel_id)
+            if old_channel is not None:
+                old_message = await old_channel.fetch_message(old_message_id)
+                if old_message is not None:
+                    await old_message.delete()
+
+        new_channel = self.bot.active_guild.get_channel(new_channel_id)
+        new_message = await new_channel.send(self.bot.submission_message())
+        self.bot.config.submissions_message.message_id = new_message.id
+        self.bot.update_config()
+
+
+    # @Cog.listener(name='on_update_submissions')
+    # async def on_update_submissions(self, old_list, new_list):
+    #     print('on_update_submissions')
+    #     channel_id = self.bot.config.submissions_message.channel_id
+    #     message_id = self.bot.config.submissions_message.message_id
+    #
+    #     channel = self.bot.active_guild.get_channel(channel_id or -1)
+    #     if channel is not None:
+    #         message = await channel.fetch_message(message_id or -1)
+    #         if message is not None:
+    #             await message.edit(content=self.bot.submission_message())
