@@ -23,31 +23,40 @@ class Serializable:
 
 
     @classmethod
-    def from_json(cls, s: str, **kwargs):
+    def from_json(cls, s: str, *, strict=False, **kwargs):
         """
         Create a new instance of this serializable class from a JSON string.
         Raises ``ValueError`` if the given JSON format does not match the class properties.
         Keyword arguments are passed to ``json.loads``.
         """
-        return cls.__from_json_rec(json.loads(s, **kwargs))
+        return cls.__from_json_rec(json.loads(s, **kwargs), strict=strict)
 
 
     @classmethod
-    def __from_json_rec(cls, d: dict):
+    def __from_json_rec(cls, d: dict, *, strict=False):
         props = {field.name: field.type for field in dataclasses.fields(cls)}
 
-        if len(dif := props.keys() - d.keys()) > 0:
-            raise ValueError(f'Deserialization failed: '
-                             f'Missing expected properties for type {cls.__name__}: {dif}')
-        if len(dif := d.keys() - props.keys()) > 0:
-            raise ValueError(f'Deserialization failed: '
-                             f'Unexpected properties for type {cls.__name__}: {dif}')
+        if strict and len(dif := props.keys() - d.keys()) > 0:
+            raise TypeError(f'Deserialization failed: '
+                            f'Missing expected properties for type {cls.__name__}: {dif}')
+        if strict and len(dif := d.keys() - props.keys()) > 0:
+            raise TypeError(f'Deserialization failed: '
+                            f'Unexpected properties for type {cls.__name__}: {dif}')
 
+        outd = {}
         for argname, argtype in props.items():
+            if argname not in d:
+                continue
             if isinstance(d[argname], dict) and issubclass(argtype, Serializable):
-                d[argname] = argtype.__from_json_rec(d[argname])
-            if not isinstance(d[argname], argtype):
-                raise ValueError(f'Deserialization failed: '
-                                 f'Invalid type for {cls.__name__}.{argname}: '
-                                 f'expected {argtype.__name__}, got {type(d[argname]).__name__}')
-        return cls(**d)
+                outd[argname] = argtype.__from_json_rec(d[argname])
+            elif not isinstance(d[argname], argtype):
+                if strict:
+                    raise TypeError(
+                        f'Deserialization failed: '
+                        f'Invalid type for {cls.__name__}.{argname}: '
+                        f'expected {argtype.__name__}, got {type(d[argname]).__name__}'
+                    )
+            else:
+                outd[argname] = d[argname]
+
+        return cls(**outd)
