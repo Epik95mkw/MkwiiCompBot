@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.app_commands import command as slash_command, default_permissions, guild_only
 
 from core.bot import Bot
+from core.config import Task
 
 
 async def respond(interaction, msg):
@@ -47,10 +48,17 @@ class SlashCommands(commands.Cog):
             year: int,
             number: int,
             team_size: int,
-            deadline: int
+            deadline_timestamp: int
     ):
         """ Create and start a new task. """
-        pass
+        self.bot.config.task = Task(
+            year=year,
+            number=number,
+            team_size=team_size,
+            deadline_timestamp=deadline_timestamp
+        )
+        self.bot.update_config()
+        await respond(interaction, 'Updated task.')
 
 
     @slash_command(name='test')
