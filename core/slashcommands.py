@@ -50,6 +50,14 @@ class SlashCommands(commands.Cog):
             team_size: int,
     ):
         """ Create and start a new task. """
+        if self.bot.config.host_channel_id is None:
+            await respond(
+                interaction,
+                'Failed to create task: Host channel is not set. '
+                'Use /set_host_channel in the channel where submissions should be sent.'
+            )
+            return
+
         self.bot.config.task = Task(
             year=year,
             title=title,
