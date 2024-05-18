@@ -3,6 +3,11 @@ from typing import Optional
 
 from utils.serialize import Serializable
 
+"""
+This file contains all the dataclasses that make up the persistent data model. 
+All properties should be given defaults, and each dataclass should extend Serializable so 
+that they can be converted to JSON automatically.
+"""
 
 @dataclass(kw_only=True)
 class Task(Serializable):

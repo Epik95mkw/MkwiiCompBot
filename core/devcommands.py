@@ -6,6 +6,14 @@ from core.bot import Bot
 
 
 class DevCommands(commands.Cog):
+    """
+    Cog containing all owner-only commands. These are classic commands instead of slash commands, and
+    only work for the user that registers and deploys the bot. Besides !activate_guild, these should
+    almost never need to be used outside of development.
+
+    Classic command reference:
+    https://discordpy.readthedocs.io/en/stable/ext/commands/api.html?highlight=commands#decorators
+    """
     def __init__(self, bot: Bot):
         self.bot = bot
 

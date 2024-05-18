@@ -6,9 +6,15 @@ from core.bot import Bot
 
 MAX_FILE_SIZE = 50_000  # 50 KB
 
-# Event reference: https://discordpy.readthedocs.io/en/stable/api.html#discord-api-events
-
 class Listeners(Cog):
+    """
+    Cog containing all listeners. These functions are called in response to events, which can be built-in or custom.
+    Built-in events such as 'on_message' are dispatched by Discord itself, while custom events such as
+    'on_update_submissions' are dispatched programmatically. Ideally, all custom events should be related to config
+    changes and should be dispatched from ``bot.update_config()``.
+
+    Built-in event reference: https://discordpy.readthedocs.io/en/stable/api.html#discord-api-events
+    """
     def __init__(self, bot: Bot):
         self.bot = bot
 

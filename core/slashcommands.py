@@ -12,6 +12,14 @@ async def respond(interaction, msg):
 
 
 class SlashCommands(commands.Cog):
+    """
+    Cog containing all slash commands. Access to these commands can be managed by server admins in Discord directly.
+    Note that most commands should only update the relevant values in ``bot.config``; any logic depending on said values
+    should be moved to a listener and called by dispatching a custom event in ``bot.update_config()``.
+
+    Slash command reference:
+    https://discordpy.readthedocs.io/en/stable/interactions/api.html?highlight=app%20commands#decorators
+    """
     def __init__(self, bot: Bot):
         self.bot = bot
 
