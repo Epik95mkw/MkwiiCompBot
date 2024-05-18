@@ -43,11 +43,10 @@ class Listeners(Cog):
 
         username = message.author.name
         filename = f'{username}_task{self.bot.config.task.number}_{self.bot.config.task.year}.rkg'
-        subm_file = discord.File(io.BytesIO(content), filename=filename)
-        bot_msg = await subm_ch.send(file=subm_file)
+        bot_msg = await subm_ch.send(file=discord.File(io.BytesIO(content), filename=filename))
         self.bot.config.task.submissions[username] = bot_msg.id
         self.bot.update_config()
-        await message.channel.send('Submission received.', file=subm_file)
+        await message.channel.send('Submission received.', file=discord.File(io.BytesIO(content), filename=filename))
 
 
     @Cog.listener(name='on_update_submission_message_channel')
