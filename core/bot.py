@@ -1,4 +1,6 @@
 import os
+
+import discord
 from discord.ext import commands
 from core.config import Config
 
@@ -10,12 +12,19 @@ class Bot(commands.Bot):
         self.config = Config()
         self._prev_config = None
 
+
+    @property
+    def active_guild(self) -> discord.Guild:
+        return self.get_guild(self.config.guild_id or -1)
+
+
     def load_config(self):
         """ Loads config from JSON file """
         if os.path.isfile(self.configpath):
             with open(self.configpath, 'r') as f:
                 self.config = Config.from_json(f.read())
         self.update_config()
+
 
     def update_config(self):
         """ Write current config state to JSON file """
@@ -37,3 +46,9 @@ class Bot(commands.Bot):
         if (old := old_config.task.submissions) != (new := new_config.task.submissions):
             self.dispatch('update_submissions', old, new)
 
+
+    # def submission_message(self):
+    #     return (
+    #         '__**Current Submissions:**__\n' +
+    #         '\n'.join(f'{i + 1}. {username}' for i, username in enumerate(self.config.task.submissions.keys()))
+    #     )
