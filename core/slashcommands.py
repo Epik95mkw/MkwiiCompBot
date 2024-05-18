@@ -48,17 +48,16 @@ class SlashCommands(commands.Cog):
             year: int,
             title: str,
             team_size: int,
-            deadline_timestamp: int
     ):
         """ Create and start a new task. """
         self.bot.config.task = Task(
             year=year,
             title=title,
             team_size=team_size,
-            deadline_timestamp=deadline_timestamp
+            is_accepting=True
         )
         self.bot.update_config()
-        await respond(interaction, 'Updated task.')
+        await respond(interaction, 'Created task and opened submissions.')
 
 
     @slash_command(name='test')

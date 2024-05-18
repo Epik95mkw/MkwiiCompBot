@@ -29,7 +29,9 @@ class Listeners(Cog):
             await message.channel.send('Error: Bot is not configured to accept submissions.')
             return
 
-        # TODO: if task is not currently running...
+        if not self.bot.config.task.is_accepting:
+            await message.channel.send('Error: Bot is not currently accepting submissions.')
+            return
 
         file = message.attachments[0]
         if file.size > MAX_FILE_SIZE:

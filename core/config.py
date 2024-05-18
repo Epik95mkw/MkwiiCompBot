@@ -1,5 +1,4 @@
 from dataclasses import field, dataclass
-from datetime import datetime
 from typing import Optional
 
 from utils.serialize import Serializable
@@ -11,7 +10,7 @@ class Task(Serializable):
     year: int = 2024
     title: str = 'Task 1'
     team_size: int = 1
-    deadline_timestamp: int = datetime.now().timestamp()
+    is_accepting: bool = False
     submissions: dict = field(default_factory=dict)
 
 
